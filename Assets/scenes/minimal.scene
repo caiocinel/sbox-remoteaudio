@@ -188,24 +188,30 @@
           "Tint": "1,0,0.93333,1"
         },
         {
-          "__type": "Sandbox.BoxCollider",
-          "__guid": "ca4eb284-231e-4c84-9bc4-7ba89962f307",
-          "Center": "0,0,0",
-          "IsTrigger": false,
-          "Scale": "50,50,50",
-          "Static": false
-        },
-        {
           "__type": "Sandbox.Rigidbody",
-          "__guid": "61ef15dd-3eb2-4f52-8b9a-315f477f79b7",
+          "__guid": "9d4191a1-1a7f-4909-bae5-8f8553ca9bd2",
           "AngularDamping": 0,
           "Gravity": true,
           "LinearDamping": 0,
           "Locking": {},
-          "MassOverride": 0,
+          "MassOverride": 4.10825E-05,
           "MotionEnabled": true,
           "RigidbodyFlags": 0,
           "StartAsleep": false
+        },
+        {
+          "__type": "Sandbox.HullCollider",
+          "__guid": "1778cf81-0074-4f43-802d-ba7c1e287f9e",
+          "BoxSize": "50,50,50",
+          "Center": "0,0,0",
+          "Height": 50,
+          "IsTrigger": false,
+          "Radius": 25,
+          "Radius2": 0,
+          "Slices": 16,
+          "Static": false,
+          "Surface": "surfaces/wood.surface",
+          "Type": "Box"
         }
       ]
     },
@@ -243,13 +249,26 @@
           "IgnoreLayers": "",
           "Radius": 16,
           "StepHeight": 18,
-          "UseCollisionRules": false
+          "UseCollisionRules": true
         },
         {
           "__type": "PlayerController",
           "__guid": "c4e5a511-9b84-4ae6-a33f-ec317338a5f6",
-          "FirstPerson": true,
           "Gravity": "0,0,800"
+        },
+        {
+          "__type": "Sandbox.HullCollider",
+          "__guid": "84b6ef7b-e48c-4b60-82e7-4c4d854515ab",
+          "BoxSize": "32.30006,32.39997,62.99992",
+          "Center": "0,0,29.80009",
+          "Height": 50,
+          "IsTrigger": false,
+          "Radius": 25,
+          "Radius2": 0,
+          "Slices": 16,
+          "Static": false,
+          "Surface": "surfaces/player.surface",
+          "Type": "Box"
         }
       ],
       "Children": [

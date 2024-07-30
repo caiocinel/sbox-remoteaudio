@@ -12,7 +12,6 @@ public class PlayerController : Component
 	[Property] public GameObject Body { get; set; }
 	[Property] public GameObject Eye { get; set; }
 	[Property] public CitizenAnimationHelper AnimationHelper { get; set; }
-	[Property] public bool FirstPerson { get; set; }
 
 	[Sync]
 	public Angles EyeAngles { get; set; }
