@@ -1,8 +1,5 @@
 using MP3Sharp;
-using Sandbox.Utility;
 using System;
-using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Sandbox.Library.RemoteAudio
@@ -10,34 +7,22 @@ namespace Sandbox.Library.RemoteAudio
 	public class RemoteAudio
 	{
 
-		
-		public GameObject localMesh;
 		public SoundHandle handle;
-		public float volume;
 		public Transform transform;
 
 
-		public void OnEnabled()
+		public Action<RemoteAudio> OnEnabled;
+		public Action<RemoteAudio> OnUpdate;
+		public Action OnDestroy;
+
+		public async Task Play( string url )
 		{
-			Log.Info( "OnEnable" );
-		}
+			var response = await Http.RequestAsync( url );
 
-		public void OnUpdate()
-		{
-			Log.Info( "OnUpdate" );
-		}
+			if ( !response.Content.Headers.GetValues( "Content-Type" ).Any( type => type.Contains( "audio" ) ) )
+				throw new Exception( "Invalid Content-Type" );
 
-		public RemoteAudio( float pVolume )
-		{
-			volume = pVolume;
-		}
-
-		public async Task LoadMusicFromWeb( HttpResponseMessage url )
-		{
-
-			var result = await url.Content.ReadAsByteArrayAsync();
-
-			var mp3 = new MP3Stream( new MemoryStream( result ) );
+			var mp3 = new MP3Stream( await response.Content.ReadAsStreamAsync() );
 
 			var stream = new SoundStream( sampleRate: 48000, channels: 2 );
 
@@ -48,9 +33,7 @@ namespace Sandbox.Library.RemoteAudio
 			int bytesTotal = 0;
 
 			while ( (handle == null || !handle.Finished) && bytesRead != 0 )
-			{
-				CameraComponent Camera = Game.ActiveScene.GetAllComponents<CameraComponent>().FirstOrDefault();
-
+			{			
 				if ( stream.QueuedSampleCount < buffer.Length * 2 )
 				{
 					bytesRead = mp3.Read( buffer, 0, buffer.Length );
@@ -64,43 +47,26 @@ namespace Sandbox.Library.RemoteAudio
 					if ( handle == null )
 					{
 						handle = stream.Play();
-						handle.Position = Camera.Transform.Position;
-						handle.Occlusion = false;
-						handle.Volume = volume;
+						if( OnEnabled != null)
+							OnEnabled(this);
 
-						var config = new CloneConfig
-						{
-							Name = $"Radinho - {Steam.PersonaName}",
-							Transform = Camera.Transform.World,
-							PrefabVariables = new Dictionary<string, object>
-						{
-							{ "Owner", Steam.PersonaName },
-						}
-						};
-
-						localMesh = GameObject.Clone( "prefabs/radinho.prefab", config );
-						localMesh.Tags.Add( "noblockaudio" );
-						localMesh.NetworkSpawn();
-
-
-						localMesh.SetPrefabSource( "prefabs/radinho.prefab" );
 					}
 					bytesTotal += bytesRead;
 
 				}
 				else
 					await GameTask.DelayRealtime( delay );
-
-				if ( localMesh != null )
-					handle.Position = localMesh.Transform.Position;
-
-				OnUpdate();
+			
+				if ( OnUpdate != null )
+					OnUpdate(this);
 			}
 
 			handle.Stop();
-			mp3.Close();
+			handle.Dispose();
+			mp3.Dispose();
 			stream.Dispose();
-			localMesh?.Destroy();
+			if( OnDestroy != null )
+				OnDestroy();
 		}
 
 	}

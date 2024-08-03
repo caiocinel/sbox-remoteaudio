@@ -1,7 +1,4 @@
-using Sandbox;
 using Sandbox.Citizen;
-using System.Drawing;
-using System.Runtime;
 
 public class PlayerController : Component
 {
