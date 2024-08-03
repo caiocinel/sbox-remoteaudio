@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using System.Net.Http;
 using Sandbox.Library.RemoteAudio;
 using Sandbox.Utility;
 
@@ -13,12 +10,11 @@ public class PlayTrack
 
 		GameObject localMesh = null;
 
-		audio.OnEnabled = (RemoteAudio self) =>
+		audio.OnEnabled = (SoundHandle handle) =>
 		{
 			CameraComponent Camera = Game.ActiveScene.GetAllComponents<CameraComponent>().FirstOrDefault();
-
-			self.handle.Position = Camera.Transform.Position;
-			self.handle.Occlusion = false;
+			handle.Position = Camera.Transform.Position;
+			handle.Occlusion = false;
 
 
 			var config = new CloneConfig
@@ -37,10 +33,10 @@ public class PlayTrack
 		};
 
 		
-		audio.OnUpdate = ( RemoteAudio self ) =>
+		audio.OnUpdate = ( SoundHandle handle ) =>
 		{
 			if ( localMesh != null )
-				self.handle.Position = localMesh.Transform.Position;
+				handle.Position = localMesh.Transform.Position;
 		};
 		
 

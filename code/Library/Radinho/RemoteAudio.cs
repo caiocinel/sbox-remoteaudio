@@ -6,13 +6,10 @@ namespace Sandbox.Library.RemoteAudio
 {
 	public class RemoteAudio
 	{
-
 		public SoundHandle handle;
-		public Transform transform;
 
-
-		public Action<RemoteAudio> OnEnabled;
-		public Action<RemoteAudio> OnUpdate;
+		public Action<SoundHandle> OnEnabled;
+		public Action<SoundHandle> OnUpdate;
 		public Action OnDestroy;
 
 		public async Task Play( string url )
@@ -47,8 +44,7 @@ namespace Sandbox.Library.RemoteAudio
 					if ( handle == null )
 					{
 						handle = stream.Play();
-						if( OnEnabled != null)
-							OnEnabled(this);
+						OnEnabled?.Invoke( this.handle );
 
 					}
 					bytesTotal += bytesRead;
@@ -56,17 +52,15 @@ namespace Sandbox.Library.RemoteAudio
 				}
 				else
 					await GameTask.DelayRealtime( delay );
-			
-				if ( OnUpdate != null )
-					OnUpdate(this);
+
+				OnUpdate?.Invoke( this.handle );
 			}
 
 			handle.Stop();
 			handle.Dispose();
 			mp3.Dispose();
 			stream.Dispose();
-			if( OnDestroy != null )
-				OnDestroy();
+			OnDestroy?.Invoke();
 		}
 
 	}
