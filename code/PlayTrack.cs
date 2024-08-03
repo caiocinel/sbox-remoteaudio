@@ -19,16 +19,11 @@ public class PlayTrack
 
 			var config = new CloneConfig
 			{
-				Name = $"Radinho - {Steam.PersonaName}",
-				Transform = Camera.Transform.World,
-				PrefabVariables = new Dictionary<string, object>
-						{
-							{ "Owner", Steam.PersonaName },
-						}
+				Name = $"Speaker - {Steam.PersonaName}",
+				Transform = Camera.Transform.World				
 			};
 
-			localMesh = GameObject.Clone( "prefabs/radinho.prefab", config );
-			localMesh.Tags.Add( "noblockaudio" );
+			localMesh = GameObject.Clone( "prefabs/speaker.prefab", config );
 			localMesh.NetworkSpawn();
 		};
 
