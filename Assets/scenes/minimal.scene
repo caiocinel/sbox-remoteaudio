@@ -133,7 +133,7 @@
       "__guid": "523e3e8f-a4ec-4ec1-af9a-d86ffc9c17e1",
       "Flags": 0,
       "Name": "Cube (1)",
-      "Position": "41.16158,225.8568,49.31671",
+      "Position": "41.16151,225.8568,14.31913",
       "Rotation": "0.00000001819328,-0.00000000000000008235059,0.3052325,0.952278",
       "Scale": "1.872525,1.593151,0.5632889",
       "Enabled": true,
@@ -212,23 +212,6 @@
           "Static": false,
           "Surface": "surfaces/wood.surface",
           "Type": "Box"
-        }
-      ]
-    },
-    {
-      "__guid": "af26f8af-cea7-4604-adfa-9a37c96ffc32",
-      "Flags": 0,
-      "Name": "Sorvete",
-      "Position": "98.61255,45.47444,21.82712",
-      "Enabled": true,
-      "Components": [
-        {
-          "__type": "Sandbox.ModelRenderer",
-          "__guid": "adcd6d81-7154-43d0-b97e-b9b1e2d72a10",
-          "BodyGroups": 18446744073709551615,
-          "Model": "models/citizen_props/icecreamcone01.vmdl",
-          "RenderType": "On",
-          "Tint": "1,1,1,1"
         }
       ]
     },
